@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- เพิ่ม Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold mt-8 mb-4">Ecommerce Dashboard</h1>
+
+        <!-- ภาพรวมคำสั่งซื้อแบบเรียลไทม์ -->
+        <div class="bg-white rounded-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">ภาพรวมคำสั่งซื้อ</h2>
+            <p>จำนวนคำสั่งซื้อทั้งหมด: {{ total_orders }}</p>
+            <p>มูลค่าคำสั่งซื้อรวม: {{ total_order_amount }}</p>
+            <p>มูลค่าคำสั่งซื้อเฉลี่ย: {{ average_order_amount }}</p>
+            <p>สินค้าที่ได้รับความนิยมมากที่สุด: {{ popular_product.product_name }} ({{ popular_product.total_quantity }})</p>
+        </div>
+
+        <!-- การติดตามสถานะคำสั่งซื้อ -->
+        <div class="bg-white rounded-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">การติดตามสถานะคำสั่งซื้อ</h2>
+            <ul>
+                {% for status in status_counts %}
+                    <li>{{ status.status }}: {{ status.count }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- ประสิทธิภาพของผลิตภัณฑ์ -->
+        <div class="bg-white rounded-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">ประสิทธิภาพของผลิตภัณฑ์</h2>
+            <canvas id="productPerformanceChart" width="400" height="200"></canvas>
+        </div>
+
+        <!-- การกระจายทางภูมิศาสตร์ -->
+        <div class="bg-white rounded-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">การกระจายทางภูมิศาสตร์</h2>
+            <!-- เพิ่มแผนที่ถ้าต้องการ -->
+        </div>
+
+        <!-- ข้อมูลเชิงลึกของลูกค้า -->
+        <div class="bg-white rounded-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">ข้อมูลเชิงลึกของลูกค้า</h2>
+            <p>ลูกค้าทั้งหมด: {{ customer_count }}</p>
+            <p>ความถี่ในการสั่งซื้อ: {{ order_frequency }}</p>
+        </div>
+
+        <!-- ประสิทธิภาพการขาย -->
+        <div class="bg-white rounded-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">ประสิทธิภาพการขาย</h2>
+            <canvas id="salesPerformanceChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // แผนภูมิประสิทธิภาพของผลิตภัณฑ์
+        var productPerformanceCtx = document.getElementById('productPerformanceChart').getContext('2d');
+        var productPerformanceChart = new Chart(productPerformanceCtx, {
+            type: 'bar',
+            data: {
+                labels: [{% for product in product_sales %}"{{ product.product_name }}", {% endfor %}],
+                datasets: [{
+                    label: 'จำนวนที่ขายได้',
+                    data: [{% for product in product_sales %}{{ product.total_quantity }}, {% endfor %}],
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // แผนภูมิประสิทธิภาพการขาย
+        var salesPerformanceCtx = document.getElementById('salesPerformanceChart').getContext('2d');
+        var salesPerformanceChart = new Chart(salesPerformanceCtx, {
+            type: 'line',
+            data: {
+                labels: [{% for sale in daily_sales %}"{{ sale.order_day }}", {% endfor %}],
+                datasets: [{
+                    label: 'ยอดขายรวม',
+                    data: [{% for sale in daily_sales %}{{ sale.total_sales }}, {% endfor %}],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

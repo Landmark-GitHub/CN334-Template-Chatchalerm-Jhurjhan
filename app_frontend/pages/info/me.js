@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 export default function myInfo() {
   const [info, setInfo] = useState(null);
   const [info_list, setInfoList] = useState(null);
+
   useEffect(() => {
+
     let token = localStorage.getItem("jwt_access");
     const res = fetch(`http://127.0.0.1:3342/api/myinfo`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -17,7 +19,9 @@ export default function myInfo() {
         );
       });
   }, []);
+  
   if (!info) return <p>No profile data</p>;
+
   else
     return (
       <main className="flex min-h-screen flex-col items-center justify-between">
