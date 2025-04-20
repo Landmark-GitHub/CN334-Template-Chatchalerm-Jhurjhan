@@ -25,3 +25,10 @@ To run this dokcer-compose template please folloiwng the instruction following
   ```
   docker-compose up -d
   ```
+
+![Screenshot 2025-04-19 223855](https://github.com/user-attachments/assets/782de4a4-9fab-4a42-8b1e-9d5ebbd2b5fd)
+![Screenshot 2025-04-19 223936](https://github.com/user-attachments/assets/70fdc178-abc0-4fc3-b69f-2078df516ba5)
+![Screenshot 2025-04-19 224011](https://github.com/user-attachments/assets/19579d37-8502-4493-8cc1-772cfc33ee20)
+![Screenshot 2025-04-19 224042](https://github.com/user-attachments/assets/5d6ec4c9-61e0-4f19-a714-cd64b6bf2003)
+![image](https://github.com/user-attachments/assets/25f2f772-48ee-4220-ad16-0e54b5be1d76)
+
